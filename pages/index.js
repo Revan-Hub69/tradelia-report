@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AssetInput from "../components/AssetInput";
 import ReportTemplate from "../components/ReportTemplate";
+import Blocco1Preview from "../components/Blocco1Preview";
 
 export default function Home() {
   const [asset, setAsset] = useState(null);
@@ -16,7 +17,7 @@ export default function Home() {
           reportDate={asset.reportDate}
           screenshot={asset.screenshot}
         >
-          {/* Qui dopo inseriremo i blocchi preview uno alla volta */}
+          <Blocco1Preview />
         </ReportTemplate>
       )}
     </div>
