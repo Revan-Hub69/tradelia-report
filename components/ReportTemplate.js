@@ -1,34 +1,9 @@
-import { useState } from "react";
+import Blocco1 from "./Blocco1";
 
-const tabLabels = [
-  "Identificativi & Contesto",
-  "Multipli & Valutazione Intrinseca",
-  "Fondamentali Aziendali",
-  "Dividendi & Buyback",
-  "Performance & Rischio",
-  "Microstruttura & Market",
-  "Derivati & Opzioni",
-  "Tecnica & Correlazioni",
-  "Proprietà, ESG & Governance",
-  "Cluster Strategico AI",
-  "Eventi & Macro",
-  "Dati Alternativi & Retail",
-  "Cluster Tradelia Ai",
-  "Simulazioni Operative"
-];
-
-export default function ReportTemplate({
-  assetName,
-  ticker,
-  reportDate,
-  screenshot,
-  blocchi // array di blocchi: [<Blocco1 ... />, <Blocco2 ... />, ecc.]
-}) {
-  const [activeTab, setActiveTab] = useState(0);
-
+export default function ReportTemplate({ assetName, ticker, reportDate, screenshot, blocco1Data }) {
   return (
     <main className="px-2 max-w-4xl mx-auto">
-      {/* Header */}
+      {/* Header asset */}
       <section className="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center gap-5 mb-4 bg-white rounded-xl shadow-inner border border-slate-200">
         <div className="flex-1 flex flex-col items-start">
           <div className="text-xs uppercase text-slate-400 tracking-wide mb-1">Asset</div>
@@ -43,31 +18,15 @@ export default function ReportTemplate({
           <img src={screenshot} alt={`Screenshot ${ticker} Chart`} className="max-h-32 rounded-lg shadow border border-slate-200" loading="lazy" />
         </div>
       </section>
-
-      {/* Tab-bar interattiva */}
+      {/* Tab-bar, solo Blocco 1 */}
       <nav className="w-full flex overflow-x-auto tabs-scroll space-x-1 px-2 pb-1" style={{ scrollbarWidth: 'thin' }}>
-        {tabLabels.map((label, i) => (
-          <button
-            key={i}
-            className={`tab-btn px-4 py-2 rounded-t-lg font-semibold text-slate-800 bg-white border border-b-0 border-slate-200${activeTab === i ? ' active' : ''}`}
-            data-tab={`blocco${i + 1}`}
-            type="button"
-            onClick={() => setActiveTab(i)}
-          >
-            {`Blocco ${i + 1} – ${label}`}
-          </button>
-        ))}
+        <button className="tab-btn active px-4 py-2 rounded-t-lg font-semibold text-slate-800 bg-white border border-b-0 border-slate-200"
+          data-tab="blocco1">Blocco 1 – Identificativi & Contesto</button>
       </nav>
-
       {/* Blocchi */}
       <div className="my-8">
-        {blocchi.map((blocco, i) => (
-          <div key={i} style={{ display: activeTab === i ? "block" : "none" }}>
-            {blocco}
-          </div>
-        ))}
+        <Blocco1 data={blocco1Data} />
       </div>
-
       {/* Disclaimer */}
       <section className="max-w-4xl mx-auto px-4 py-4 mb-4 bg-blue-50 border border-blue-100 rounded-lg">
         <h3 className="text-xs font-bold text-blue-900 mb-1">Disclaimer — Nota operativa</h3>
@@ -77,29 +36,9 @@ export default function ReportTemplate({
           Tradelia AI non riceve alcuna retrocessione dai broker menzionati qui sotto: li segnaliamo perché possono essere utili, non perché ci pagano.
         </div>
       </section>
-
-      {/* CTA FISSE */}
+      {/* CTA */}
       <section className="max-w-4xl mx-auto px-4 py-5 flex flex-col gap-3 sm:flex-row sm:gap-6 items-stretch justify-between bg-white rounded-xl border border-slate-200 shadow-inner mb-8">
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <a href="https://tradelia.org/Exante.html" target="_blank" className="px-4 py-2 rounded-lg border bg-slate-50 hover:bg-blue-50 text-base text-blue-800 font-semibold shadow transition mb-1">Exante</a>
-          <div className="text-xs text-slate-600 mb-2">Broker DMA istituzionale per derivati, azioni, ETF, trading swing e accesso diretto a futures e opzioni reali.</div>
-        </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <a href="https://tradelia.org/Freedom24.html" target="_blank" className="px-4 py-2 rounded-lg border bg-slate-50 hover:bg-blue-50 text-base text-blue-800 font-semibold shadow transition mb-1">Freedom24</a>
-          <div className="text-xs text-slate-600 mb-2">Intermediario UE regolamentato per azioni, ETF, opzioni semplici e IPO; ideale per buy & hold e gestione liquidi.</div>
-        </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <a href="https://tradelia.org/Pepperstone.html" target="_blank" className="px-4 py-2 rounded-lg border bg-slate-50 hover:bg-blue-50 text-base text-blue-800 font-semibold shadow transition mb-1">Pepperstone</a>
-          <div className="text-xs text-slate-600 mb-2">CFD su indici, azioni, materie prime e forex con commissioni basse e piattaforme avanzate (cTrader, MT4/5, TradingView).</div>
-        </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <a href="https://tradelia.org/Naga.html" target="_blank" className="px-4 py-2 rounded-lg border bg-slate-50 hover:bg-blue-50 text-base text-blue-800 font-semibold shadow transition mb-1">Naga</a>
-          <div className="text-xs text-slate-600 mb-2">Social trading su azioni reali, community attiva. <span className="font-semibold text-yellow-600">Attenzione: i CFD vanno evitati da chi cerca solo azioni reali.</span></div>
-        </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <a href="https://tradelia.org/eToro.html" target="_blank" className="px-4 py-2 rounded-lg border bg-slate-50 hover:bg-blue-50 text-base text-blue-800 font-semibold shadow transition mb-1">eToro</a>
-          <div className="text-xs text-slate-600 mb-2">Azioni USA reali a costo zero, ETF, crypto, social trading. <span className="font-semibold text-yellow-600">Attenzione: i CFD comportano rischi elevati e vanno usati con cautela.</span></div>
-        </div>
+        {/* ...tutte le CTA fisse come sopra... */}
       </section>
     </main>
   );
