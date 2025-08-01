@@ -1,9 +1,24 @@
+import { useState } from "react";
+import AssetInput from "../components/AssetInput";
+import ReportTemplate from "../components/ReportTemplate";
+
 export default function Home() {
+  const [asset, setAsset] = useState(null);
+
   return (
-    <main className="px-2 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold my-8">Tradelia Report Generator</h1>
-      <p className="mb-4">Iniziamo a costruire la webapp, blocco per blocco.</p>
-      {/* Prossimi step: componenti per upload JSON blocchi */}
-    </main>
+    <div>
+      {!asset ? (
+        <AssetInput onSubmit={setAsset} />
+      ) : (
+        <ReportTemplate
+          assetName={asset.assetName}
+          ticker={asset.ticker}
+          reportDate={asset.reportDate}
+          screenshot={asset.screenshot}
+        >
+          {/* Qui dopo inseriremo i blocchi preview uno alla volta */}
+        </ReportTemplate>
+      )}
+    </div>
   );
 }
