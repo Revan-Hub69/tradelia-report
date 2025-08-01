@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const tabLabels = [
   "Identificativi & Contesto",
   "Multipli & Valutazione Intrinseca",
@@ -20,8 +22,10 @@ export default function ReportTemplate({
   ticker,
   reportDate,
   screenshot,
-  children,
+  blocchi // array di blocchi: [<Blocco1 ... />, <Blocco2 ... />, ecc.]
 }) {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <main className="px-2 max-w-4xl mx-auto">
       {/* Header */}
@@ -40,25 +44,31 @@ export default function ReportTemplate({
         </div>
       </section>
 
-      {/* Tab-bar fissa */}
+      {/* Tab-bar interattiva */}
       <nav className="w-full flex overflow-x-auto tabs-scroll space-x-1 px-2 pb-1" style={{ scrollbarWidth: 'thin' }}>
         {tabLabels.map((label, i) => (
           <button
             key={i}
-            className={`tab-btn px-4 py-2 rounded-t-lg font-semibold text-slate-800 bg-white border border-b-0 border-slate-200${i === 0 ? ' active' : ''}`}
+            className={`tab-btn px-4 py-2 rounded-t-lg font-semibold text-slate-800 bg-white border border-b-0 border-slate-200${activeTab === i ? ' active' : ''}`}
             data-tab={`blocco${i + 1}`}
             type="button"
-            disabled
+            onClick={() => setActiveTab(i)}
           >
             {`Blocco ${i + 1} – ${label}`}
           </button>
         ))}
       </nav>
 
-      {/* Blocchi preview */}
-      <div className="my-8">{children}</div>
+      {/* Blocchi */}
+      <div className="my-8">
+        {blocchi.map((blocco, i) => (
+          <div key={i} style={{ display: activeTab === i ? "block" : "none" }}>
+            {blocco}
+          </div>
+        ))}
+      </div>
 
-      {/* Disclaimer istituzionale-amichevole */}
+      {/* Disclaimer */}
       <section className="max-w-4xl mx-auto px-4 py-4 mb-4 bg-blue-50 border border-blue-100 rounded-lg">
         <h3 className="text-xs font-bold text-blue-900 mb-1">Disclaimer — Nota operativa</h3>
         <div className="text-xs text-blue-900 leading-relaxed">
